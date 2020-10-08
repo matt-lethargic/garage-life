@@ -1,0 +1,142 @@
+<html>
+
+  <head>
+    <title>ESP8266 Web Server</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="data:,">
+    <link rel="stylesheet" type="text/css" href="style.css">
+  </head>
+
+  <body>
+    <h1>Garage Lights</h1>
+    <div>
+      <table>
+        <tbody>
+          <tr>
+            <td class="sensor-labels">0</td>
+            <td>
+              <button onclick="liteControl(0, true);" class="btn">On</button>
+            </td>
+            <td>
+              <button onclick="liteControl(0, false);" class="btn btn-red">Off</button>
+            </td>
+            <td><img src="bulb.svg" id="bulb-0" class="hide"/></td>
+          </tr>
+          <tr>
+            <td class="sensor-labels">1</td>
+            <td>
+              <button onclick="liteControl(1, true);" class="btn">On</button>
+            </td>
+            <td>
+              <button onclick="liteControl(1, false);" class="btn btn-red">Off</button>
+            </td>
+            <td><img src="bulb.svg" id="bulb-1" class="bulb hide"/></td>
+          </tr>
+          <tr>
+            <td class="sensor-labels">2</td>
+            <td>
+              <button onclick="liteControl(2, true);" class="btn">On</button>
+            </td>
+            <td>
+              <button onclick="liteControl(2, false);" class="btn btn-red">Off</button>
+            </td>
+            <td><img src="bulb.svg" id="bulb-2" class="bulb hide"/></td>
+          </tr>
+          <tr>
+            <td class="sensor-labels">3</td>
+            <td>
+              <button onclick="liteControl(3, true);" class="btn">On</button>
+            </td>
+            <td>
+              <button onclick="liteControl(3, false);" class="btn btn-red">Off</button>
+            </td>
+            <td><img src="bulb.svg" id="bulb-3" class="bulb hide"/></td>
+          </tr>
+          <tr>
+            <td class="sensor-labels">4</td>
+            <td>
+              <button onclick="liteControl(4, true);" class="btn">On</button>
+            </td>
+            <td>
+              <button onclick="liteControl(4, false);" class="btn btn-red">Off</button>
+            </td>
+            <td><img src="bulb.svg" id="bulb-4" class="bulb hide"/></td>
+          </tr>
+          <tr>
+            <td class="sensor-labels">5</td>
+            <td>
+              <button onclick="liteControl(5, true);" class="btn">On</button>
+            </td>
+            <td>
+              <button onclick="liteControl(5, false);" class="btn btn-red">Off</button>
+            </td>
+            <td><img src="bulb.svg" id="bulb-5" class="bulb hide"/></td>
+          </tr>
+          <tr>
+            <td class="sensor-labels">6</td>
+            <td>
+              <button onclick="liteControl(6, true);" class="btn">On</button>
+            </td>
+            <td>
+              <button onclick="liteControl(6, false);" class="btn btn-red">Off</button>
+            </td>
+            <td><img src="bulb.svg" id="bulb-6" class="bulb hide"/></td>
+          </tr>
+          <tr>
+            <td class="sensor-labels">7</td>
+            <td>
+              <button onclick="liteControl(7, true);" class="btn">On</button>
+            </td>
+            <td>
+              <button onclick="liteControl(7, false);" class="btn btn-red">Off</button>
+            </td>
+            <td><img src="bulb.svg" id="bulb-7" class="bulb hide"/></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </body>
+  <script>
+    function liteControl(number, state) {
+      let postData = {
+        lite: number,
+        status: state
+      };
+      var xhr = new XMLHttpRequest();
+      xhr.open("POST", 'lite', true);
+      xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8');
+      xhr.onload = function () {
+        if (xhr.readyState == 4 && xhr.status == "200") {
+          updateStatus();
+        } else {
+          console.error('Error: ' + xhr.statusText);
+        }
+      }
+      xhr.send(JSON.stringify(postData));
+    }
+
+    function updateStatus() {
+      let xhr = new XMLHttpRequest();
+      xhr.open("GET", 'status', true);
+      xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8');
+      xhr.onload = function () {
+        var data = JSON.parse(xhr.responseText);
+        if (xhr.readyState == 4 && xhr.status == "200") {
+          for (let i = 0; i <= 7; i++) {
+            if (data.lites[i].status) {
+              let lightId = "bulb-" + i;
+              document
+                .getElementById[lightId]
+                .className = "show";
+            }
+          }
+          console.log(data);
+        } else {
+          console.error('Error loading status: ' + xhr.statusText);
+        }
+      }
+      xhr.send();
+    }
+  </script>
+
+</html>
