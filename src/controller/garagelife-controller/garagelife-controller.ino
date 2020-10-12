@@ -12,13 +12,13 @@ char* password = "Starship69";
 AsyncWebServer server(80);
 
 // inputs
-int latchPin_IP = D6; // Pin 15
-int clockPin_IP = D5; // Pin 7
+int latchPin_IP = D5; // Pin 15
+int clockPin_IP = D6; // Pin 7
 int dataPin_IP = D7; // Pin 13
 
 // outputs (595 shift register)
-int latchPin_SIPO = D1; // D5;
-int clockPin_SIPO = D2; //D6;
+int latchPin_SIPO = D2; // D5;
+int clockPin_SIPO = D1; //D6;
 int dataPin_SIPO = D3; //D4;
 
 // vars
